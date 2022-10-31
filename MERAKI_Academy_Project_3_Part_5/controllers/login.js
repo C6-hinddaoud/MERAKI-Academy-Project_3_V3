@@ -7,10 +7,12 @@ const login = (req, res) => {
  const email= req.body.email.toLowerCase();
  const valuse=[email]
 const query= `select * FROM USERS
-INNER JOIN roles ON users.role_id = roles.id
+
 WHERE email=$1`
 
-
+/** `select * FROM USERS
+INNER JOIN roles ON users.role_id = roles.id
+WHERE email=$1` */
 
 pool.query(query,valuse)
 
@@ -32,12 +34,12 @@ pool.query(query,valuse)
       });
     }
     const payload = {
-      userId: result._id,
-      author: result.firstName,
-      role: result.role,
-      country: result.country,
+      userId: result.rows[0].id,
+      
+      role: result.rows[0].role_id,
+      country: result.rows[0].country,
     };
-
+console.log("PA",payload)
     const options = {
       expiresIn: "60m",
     };

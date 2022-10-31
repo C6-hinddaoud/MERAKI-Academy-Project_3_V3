@@ -7,11 +7,12 @@ const app = express();
 const PORT = 5000;
 
 // Import Routers
-const articleRouter = require("./routes/articles");
+//const articleRouter = require("./routes/articles");
 const registerRouter = require("./routes/register");
 const loginRouter = require("./routes/login");
 const roleRouter = require("./routes/roles");
 const commentRouter = require("./routes/comments");
+const articleRouter = require("./routes/articles");
 
 app.use(cors());
 app.use(express.json());
