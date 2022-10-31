@@ -159,7 +159,29 @@ pool.query(query,values)
 
 // This function deletes a specific article by its id
 const deleteArticleById = (req, res) => {
-  //TODO: write your code here
+  const id = req.params.id;
+  const query = `UPDATE articles SET is_deleted=1 WHERE id=${id} returning *;`;
+  pool.query(query)
+  .then((result) => {
+    console.log(result.rows.length)
+    if (result.rows.length==0) {
+      return res.status(404).json({
+        success: false,
+        message: `The Article: ${id} is not found`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `Article deleted`,
+    });
+  })
+  .catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      err: err.message,
+    });
+  });
 };
 
 // This function deletes all the articles for a specific author
