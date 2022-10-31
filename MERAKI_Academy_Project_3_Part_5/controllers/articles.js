@@ -186,7 +186,32 @@ const deleteArticleById = (req, res) => {
 
 // This function deletes all the articles for a specific author
 const deleteArticlesByAuthor = (req, res) => {
-  //TODO: write your code here
+  const id = req.params.id;
+  const query=`UPDATE articles SET is_deleted=1 WHERE author_id=${id} returning *`
+
+  pool.query(query)
+  .then((result) => {
+    if (result.rows.length==0) {
+      return res.status(404).json({
+        success: false,
+        message: `The Author not found`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `Deleted articles for the author: ${id}`,
+      result:result.rows,
+    });
+  })
+  .catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      err: err.message,
+    });
+  });
+
+
 };
 
 module.exports = {
