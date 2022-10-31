@@ -41,12 +41,12 @@ const getArticlesByAuthor = (req, res) => {
     if (!articles.rows.length) {
       return res.status(404).json({
         success: false,
-        message: `The author: ${author_id}} has no articles`,
+        message: `The author: ${author_id} has no articles`,
       });
     }
     res.status(200).json({
       success: true,
-      message: `All the articles for the author: ${author_id}}`,
+      message: `All the articles for the author: ${author_id}`,
       articles: articles.rows,
     });
   })
@@ -71,7 +71,7 @@ const getArticleById = (req, res) => {
   `
   pool.query(query)
   .then((result) => {
-    if (!result.rows) {
+    if (result.rows.length==0) {
       return res.status(404).json({
         success: false,
         message: `The article is not found`,
@@ -126,7 +126,35 @@ pool.query(query,values)
 
 // This function updates article by its id
 const updateArticleById = (req, res) => {
-  //TODO: write your code here
+  const id = req.params.id;
+  const{title,description}=req.body
+  values=[title,description]
+  const query=`UPDATE articles SET title = COALESCE($1,title), description = COALESCE($2, description) WHERE id=${id} AND is_deleted = 0  RETURNING *`
+
+pool.query(query,values)
+
+.then((result) => {
+  console.log(result)
+  if (result.rows.length==0) {
+    return res.status(404).json({
+      success: false,
+      message: `The Article: ${id} is not found`,
+    });
+  }
+  res.status(202).json({
+    success: true,
+    message: `Article updated`,
+    article: result.rows,
+  });
+})
+.catch((err) => {
+  res.status(500).json({
+    success: false,
+    message: `Server Error`,
+    err: err.message,
+  });
+});
+
 };
 
 // This function deletes a specific article by its id
