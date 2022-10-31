@@ -15,6 +15,7 @@ const {
 
 // Middleware
 const authentication = require("../middleware/authentication");
+const authorization = require("../middleware/authorization");
 
 const articleRouter = express.Router();
 
@@ -40,7 +41,7 @@ const articleRouter = express.Router();
 articleRouter.get("/", getAllArticles);
 articleRouter.get("/search_1", getArticlesByAuthor);
 articleRouter.get("/search_2", getArticleById);
-articleRouter.post("/", authentication, createNewArticle);//
+articleRouter.post("/", authentication,authorization("CREATE-ARTICLE"), createNewArticle);//
 articleRouter.put("/:id", updateArticleById);
 articleRouter.delete("/:id", deleteArticleById);
 articleRouter.delete("/:id/author", deleteArticlesByAuthor);

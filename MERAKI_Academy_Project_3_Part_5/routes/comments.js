@@ -18,6 +18,6 @@ const commentRouter = express.Router();
   "comment":"Nice"
 }
 */
-commentRouter.post("/:id", authentication, createNewComment);
+commentRouter.post("/:id", authentication,authorization("CREATE-COMMENT"), createNewComment);
 commentRouter.get("/", getAllComments);
 module.exports = commentRouter;
