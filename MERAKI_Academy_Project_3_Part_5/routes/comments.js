@@ -5,6 +5,7 @@ const {
 } = require("./../controllers/comments");
 // Middleware
 const authentication = require("../middleware/authentication");
+const authorization = require("../middleware/authorization");
 // Create comments router
 const commentRouter = express.Router();
 
@@ -18,6 +19,6 @@ const commentRouter = express.Router();
   "comment":"Nice"
 }
 */
-commentRouter.post("/:id", authentication,authorization("CREATE-COMMENT"), createNewComment);
+commentRouter.post("/:id",authentication,authorization("CREATE-COMMENT"), createNewComment);
 commentRouter.get("/", getAllComments);
 module.exports = commentRouter;

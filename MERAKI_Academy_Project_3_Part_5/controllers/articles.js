@@ -34,7 +34,8 @@ const query=`SELECT * FROM articles`
 const getArticlesByAuthor = (req, res) => {
 
   let author_id = req.query.author;
-  const query=`select * from articles where author_id=${author_id} AND is_deleted=0
+  const query=`select * from articles where author_id=${author_id}
+   AND is_deleted=0
   `
   pool.query(query)
   .then((articles) => {
