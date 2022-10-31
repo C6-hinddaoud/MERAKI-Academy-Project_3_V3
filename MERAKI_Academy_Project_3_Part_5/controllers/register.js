@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 const register =async (req, res) => {
   const{firstName,lastName,age,country,email,role_id,password}=req.body
   let pass=await bcrypt.hash(password, 10);
-const values=[firstName,lastName,age,country,email,role_id,pass]
+  let emailLoer=email.toLowerCase();
+const values=[firstName,lastName,age,country,emailLoer,role_id,pass]
  
   const query=`INSERT INTO users (firstName,lastName,age,country,email,role_id,password)VALUES($1,$2,$3,$4,$5,$6,$7) returning *`
 

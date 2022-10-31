@@ -15,6 +15,9 @@ const getArticleById = (req, res) => {
 
 // This function creates new article
 const createNewArticle = (req, res) => {
+  const userId = req.token.userId;
+console.log(userId)
+res.json(userId)
   //TODO: write your code here
 };
 
