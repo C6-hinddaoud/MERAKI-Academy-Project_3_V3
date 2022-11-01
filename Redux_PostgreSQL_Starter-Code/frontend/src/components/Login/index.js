@@ -51,6 +51,7 @@ const userId=useSelector((state)=>{
        // localStorage.setItem("token", result.data.token);
        // localStorage.setItem("userId", result.data.userId);
        // saveToken(result.data.token, result.data.userId);
+       console.log("result.data.userId",result.data.userId)
         dispatch(setUserId(result.data.userId));
         dispatch(setLogin( result.data.token));
        

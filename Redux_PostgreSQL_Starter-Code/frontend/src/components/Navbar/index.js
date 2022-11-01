@@ -25,7 +25,7 @@ const logout=()=>{
   return (
     <>
       <div className="NavBar">
-        {auth? (
+        {setLogin? (
           <>
             <Link className="Link" to="/dashboard">
               Dashboard

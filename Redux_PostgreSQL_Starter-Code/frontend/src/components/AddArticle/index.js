@@ -1,25 +1,48 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-
+//import { useDispatch,useSelector } from "react-redux";
 import axios from "axios";
+import {setArticles,addArticle,updateArticle,deleteArticle } from "../../redux/reducers/articles"
+import {setComments,addComment } from "../../redux/reducers/comments"
+import { useDispatch, useSelector } from "react-redux";
 
-import { AuthContext } from "../../contexts/authContext";
+//import { AuthContext } from "../../contexts/authContext";
 
 //===============================================================
 
 const AddArticle = () => {
-  const { token, isLoggedIn } = useContext(AuthContext);
+  //const { token, isLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
-
+const dispatch=useDispatch()
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
 
   //===============================================================
+  const auth=useSelector((state)=>{
+    return{
+      auth:state.auth.isLoggedIn
+    }
+    
+    })
+    const userId=useSelector((state)=>{
+      return{
+        userId:state.auth.userId
+      }
+      
+      })
+      const token=useSelector((state)=>{
+        return{
+          token:state.auth.token
+        }
+        
+        })
 
   const createNewArticle = async (e) => {
+
+    
     e.preventDefault();
     try {
       const article = {
@@ -37,6 +60,8 @@ const AddArticle = () => {
       );
       if (result.data.success) {
         setStatus(true);
+dispatch(setArticles(article))
+        
         setMessage("The article has been created successfully");
       }
     } catch (error) {
@@ -50,7 +75,7 @@ const AddArticle = () => {
   //===============================================================
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!auth) {
       history("/dashboard");
     }
   });
